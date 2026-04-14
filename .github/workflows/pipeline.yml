@@ -18,9 +18,16 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
+        cache: 'npm'
 
-    - name: Install Dependencies
-      run: npm install
+    - name: Install Dependencies & Build
+      run: |
+        # Note: In Juice Shop, npm install triggers the full frontend build 
+        # via the 'postinstall' script in package.json.
+        npm install
+
+    - name: Build Server
+      run: npm run build:server
 
     - name: Lint Code
       run: npm run lint
