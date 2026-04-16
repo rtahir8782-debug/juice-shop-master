@@ -111,7 +111,7 @@
               "zone.js"
             ],
             "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "karmaConfig": "karma.conf.js",
             "styles": ["src/styles.scss"],
             "scripts": [],
             "assets": ["src/assets"],
