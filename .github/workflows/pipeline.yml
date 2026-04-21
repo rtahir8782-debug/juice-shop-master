@@ -1,48 +1,36 @@
 name: DevSecOps Pipeline
-
 on:
   push:
     branches: [ "develop", "main" ]
   pull_request:
     branches: [ "develop" ]
-
 jobs:
   scan:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
-
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-
     - name: Install Dependencies (Scripts Ignored)
       run: npm install --ignore-scripts
-
     - name: Rebuild Native Modules
       run: npm rebuild
-
     - name: Install Frontend Dependencies
       run: |
         cd frontend && npm install
-
     - name: Lint Code
       run: npm run lint
-
     - name: Run Refactoring Safety Net
       run: npm run rsn
-
     - name: Full Build
       run: |
         # Now run the scripts that build the frontend and server
         npm run postinstall
-
     - name: Run Unit & Integration Tests
       run: npm test
-
     - name: Start App and wait for readiness
       run: |
         nohup npm start > app.log 2>&1 &
@@ -55,24 +43,20 @@ jobs:
           sleep 2
         done
         curl --silent --fail http://localhost:3000/ > /dev/null || (echo "App failed to start" && cat app.log && exit 1)
-
     # --- SNYK ---
     - name: Install Snyk
       run: npm install -g snyk
-
     - name: Run Snyk Scan
       run: snyk test
-      continue-on-error: true
+      # continue-on-error: true
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
     # --- ZAP ---
     - name: Run OWASP ZAP Scan
       run: |
         docker run --user root --network="host" -v $(pwd):/zap/wrk/:rw -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
           -t http://localhost:3000 -r report.html -a
       continue-on-error: true
-
     - name: Upload ZAP HTML Report
       uses: actions/upload-artifact@v4
       with:
