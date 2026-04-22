@@ -50,7 +50,7 @@ jobs:
       run: snyk test
       continue-on-error: true
       env:
-        SNYK_TOKEN: ${{ secrets.SNYK_Token }}
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     # --- ZAP ---
     - name: Run OWASP ZAP Scan
       run: |
