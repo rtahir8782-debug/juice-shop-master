@@ -1,0 +1,65 @@
+@use '../../styles/variables' as *;
+
+.scan-dashboard {
+  max-width: 980px;
+  margin: $space-l auto;
+  padding: 0 $space-m $space-m;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header p {
+  margin: $space-xs 0 $space-l;
+  color: rgba(0, 0, 0, 0.68);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: $space-m;
+}
+
+.metric {
+  padding: $space-m;
+}
+
+.metric h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.metric p {
+  margin: $space-s 0 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.metric.high p {
+  color: #b00020;
+}
+
+.metric.medium p {
+  color: #ef6c00;
+}
+
+.metric.low p {
+  color: #2e7d32;
+}
+
+.state {
+  padding: $space-m;
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: $space-s;
+}
+
+.error-state {
+  border-color: #d32f2f;
+  color: #b71c1c;
+}
